@@ -30,44 +30,17 @@ class HashOperation < LDAP::Server::Operation
 
   def setup_chef()
     ChefAPI.configure do |config|
-      config.endpoint = 'https://api.chef.secretcdn.net/organizations/fastly'
-      config.client = 'jsokolmargolis'
-      config.key    = '~/.chef/jsokolmargolis.pem'
+      config.endpoint = CHEFURL
+      config.client = CHEFUSER
+      config.key    = CHEFPEM
     end
 
     connection = ChefAPI::Connection.new(
-                                         endpoint: 'https://api.chef.secretcdn.net/organizations/fastly',
-                                         client:   'jsokolmargolis',
-                                         key:      '~/.chef/jsokolmargolis.pem'
+                                         endpoint: CHEFURL
+                                         client:   CHEFUSER
+                                         key:      CHEFPEM
                                          )
     return connection
-  end
-
-
-  def reload_databags()
-    puts('reloaded data bags')
-    @chef.search.query(:users, '*:*').rows.each do |dbitem|
-      as_arrays = {}
-      dbitem['raw_data'].each { |k,v| as_arrays[k] = Array(v) }
-      id = dbitem['raw_data']['id']
-      @hash["cn=#{id},dc=example,dc=com"] = as_arrays
-    end
-  end
-
-  def db_to_hash(databags)
-    # the expected hash format here has values in arrays. So, let's
-    # arrayify things, and generally make them more ldapy
-    hash = {}
-    databags.each do |id, db|
-      begin
-        as_arrays = {}
-        db.each { |k,v| as_arrays[k] = Array(v) }
-        hash["cn=#{id},dc=example,dc=com"] = as_arrays
-      rescue NoMethodError
-        puts "bleah #{db}"
-      end
-    end
-    return hash
   end
 
   def search(basedn, scope, deref, filter)
