@@ -87,9 +87,9 @@ ChefAPI.configure do |config|
 end
 
 connection = ChefAPI::Connection.new(
-                                     endpoint: 'https://api.chef.secretcdn.net/organizations/fastly',
-                                     client:   'jsokolmargolis',
-                                     key:      '~/.chef/jsokolmargolis.pem'
+                                     endpoint: ENV['CHEF_URL'],
+                                     client:   ENV['CHEF_CLIENT'],
+                                     key:      ENV['CHEF_PEM']
                                      )
 directory = {}
 connection.search.query(:users, '*:*').rows.each do |dbitem|
