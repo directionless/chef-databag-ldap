@@ -1,4 +1,8 @@
+# Chef Databag LDAP
 
+A quick PoC of using chef users databags as an ldap server.
+
+Probably doesn't work anymore
 
 
 ## ldap servers

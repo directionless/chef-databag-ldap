@@ -81,9 +81,9 @@ end
 # This is the shared object which carries our actual directory entries.
 # It's just a hash of {dn=>entry}, where each entry is {attr=>[val,val,...]}
 ChefAPI.configure do |config|
-  config.endpoint = 'https://api.chef.secretcdn.net/organizations/fastly'
-  config.client = 'jsokolmargolis'
-  config.key    = '~/.chef/jsokolmargolis.pem'
+  config.endpoint = 'https://chef.example.org'
+  config.client = 'seph'
+  config.key    = '~/.chef/seph.pem'
 end
 
 connection = ChefAPI::Connection.new(
